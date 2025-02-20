@@ -1,0 +1,2 @@
+E:/gusi9/Documents/Clase/Proyecto final/universo_de_tintas/android/app/.cxx/Debug/5b6g6b6e/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/gusi9/Documents/Clase/Proyecto final/universo_de_tintas/android/app/.cxx/Debug/5b6g6b6e/armeabi-v7a/CMakeFiles/rebuild_cache.dir

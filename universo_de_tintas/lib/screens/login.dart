@@ -1,8 +1,8 @@
 import 'package:universo_de_tintas/screens/pantalla_registro.dart';
-//import 'package:universo_de_tintas/screens/pantalla_principal.dart';
+import 'package:universo_de_tintas/screens/pantalla_principal.dart';
 import 'package:flutter/material.dart';
 import 'package:universo_de_tintas/services/lista_usuarios.dart';
-//import 'package:universo_de_tintas/models/usuario.dart';
+import 'package:universo_de_tintas/models/usuario.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
       ListaUsuarios(); // Instancia de la lista de usuarios
 
   void _login() {
-  /*  String username = _userController.text;
+    String username = _userController.text;
     String password = _passController.text;
 
     // Verificar si el usuario y la contraseña son correctos
@@ -39,7 +39,7 @@ class _LoginState extends State<Login> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Usuario o contraseña incorrectos")),
       );
-    }*/
+    }
   }
 
   void _register() {

@@ -1,5 +1,7 @@
 import 'package:universo_de_tintas/models/usuario.dart';
-//import 'package:universo_de_tintas/screens/pantalla_principal.dart';
+import 'package:universo_de_tintas/screens/pantalla_principal.dart';
+import 'package:flutter/material.dart';
+
 
 
 class ListaUsuarios {
@@ -16,10 +18,10 @@ class ListaUsuarios {
     usuarios.add(usuario);
   }
 
-/*Usuario? verificarUsuario(
+Usuario? verificarUsuario(
       BuildContext context, String nombre, String contrasenia) {
     if (nombre == 'admin' && contrasenia == 'admin') {
-      Navigator.pushReplacement(
+      Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => PantallaPrincipal(usuario: null)),
       );
@@ -32,6 +34,6 @@ class ListaUsuarios {
       }
     }
     return null;
-  }*/
+  }
 }
 

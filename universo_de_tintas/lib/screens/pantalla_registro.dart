@@ -79,6 +79,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Registro"),
+        automaticallyImplyLeading: false,
         centerTitle: true,
       ),
       body: Padding(
@@ -182,8 +183,6 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               ),
               SizedBox(height: 20),
 
-              SizedBox(height: 15),
-
               //Edad
               TextFormField(
                 controller: _edadController,
@@ -203,15 +202,26 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
                 },
               ),
 
-              ElevatedButton(
-                  onPressed: () async {
-                    final path = await CameraGalleryService().selectPhoto();
-                    if (path == null) return;
-                    setState(() {
-                      photoPath = path;
-                    });
-                  },
-                  child: Text("asdas")),
+              SizedBox(height: 20),
+
+              Row(
+                mainAxisAlignment:
+                    MainAxisAlignment.start, // Alinea todo a la izquierda
+                children: [
+                  Text("Subir foto: "),
+                  SizedBox(width: 8), // Espacio pequeño entre texto y botón
+                  ElevatedButton(
+                    onPressed: () async {
+                      final path = await CameraGalleryService().selectPhoto();
+                      if (path == null) return;
+                      setState(() {
+                        photoPath = path;
+                      });
+                    },
+                    child: Text("Seleccionar"),
+                  ),
+                ],
+              ),
 
               SizedBox(height: 15),
 

@@ -91,6 +91,7 @@ class _PantallaPrincipalState extends State<PantallaPrincipal> {
             SizedBox(height: 20), 
 
             ElevatedButton(
+              style: ButtonStyle(),
               onPressed: () {
                 Navigator.pop(context);
               },

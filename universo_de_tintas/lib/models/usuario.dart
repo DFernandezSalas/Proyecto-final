@@ -1,9 +1,12 @@
 class Usuario {
-  String trato;        
+  String trato;
   String nombre;
-  String contrasenia;   
+  String contrasenia;
   int edad;
   String lugarNacimiento;
+  String? imagenPath;
+  bool esAdmin;
+  bool bloqueado;
 
   Usuario({
     required this.trato,
@@ -11,17 +14,12 @@ class Usuario {
     required this.contrasenia,
     required this.edad,
     required this.lugarNacimiento,
-  });
-
-
-
-  factory Usuario.fromMap(Map<String, dynamic> map) {
-    return Usuario(
-      trato: map['trato'],
-      nombre: map['nombre'],
-      contrasenia: map['contraseña'],
-      edad: map['edad'],
-      lugarNacimiento: map['lugarNacimiento'],
-    );
+    this.esAdmin = false,
+    this.bloqueado = false,
+    String? imagenPath,
+  }) {
+    this.imagenPath = (imagenPath == null || imagenPath.isEmpty)
+        ? 'assets/images/imagen_defecto_user.png'
+        : imagenPath;
   }
 }

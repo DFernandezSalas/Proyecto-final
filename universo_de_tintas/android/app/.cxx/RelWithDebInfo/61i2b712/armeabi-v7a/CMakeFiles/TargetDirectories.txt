@@ -1,0 +1,2 @@
+E:/gusi9/Documents/Clase/universo_de_tintas/android/app/.cxx/RelWithDebInfo/61i2b712/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/gusi9/Documents/Clase/universo_de_tintas/android/app/.cxx/RelWithDebInfo/61i2b712/armeabi-v7a/CMakeFiles/rebuild_cache.dir

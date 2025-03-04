@@ -1,0 +1,2 @@
+E:/gusi9/Documents/Clase/universo_de_tintas/android/app/.cxx/Debug/6s6s6j6g/x86/CMakeFiles/edit_cache.dir
+E:/gusi9/Documents/Clase/universo_de_tintas/android/app/.cxx/Debug/6s6s6j6g/x86/CMakeFiles/rebuild_cache.dir

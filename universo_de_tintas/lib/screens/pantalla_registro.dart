@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:universo_de_tintas/models/usuario.dart';
 import 'package:universo_de_tintas/services/lista_usuarios.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:universo_de_tintas/utils/button_styles.dart';
 
 class PantallaRegistro extends StatefulWidget {
   const PantallaRegistro({super.key});
@@ -12,6 +14,7 @@ class PantallaRegistro extends StatefulWidget {
 
 class _PantallaRegistroState extends State<PantallaRegistro> {
   final _formKey = GlobalKey<FormState>();
+  final List<String> lugares = ["Zaragoza", "Huesca", "Teruel"];
 
   final TextEditingController _edadController = TextEditingController();
   final TextEditingController _usuarioController = TextEditingController();
@@ -21,7 +24,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
   final TextEditingController _lugarNacimientoController =
       TextEditingController();
   String? photoPath;
-
+  String? _lugarSeleccionado;
   String? _trato;
   bool _aceptaTerminos = false;
   final ListaUsuarios listaUsuarios = ListaUsuarios();
@@ -46,8 +49,9 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
         nombre: _usuarioController.text,
         contrasenia: _passwordController.text,
         edad: int.tryParse(_edadController.text) ?? 0,
-        lugarNacimiento: _lugarNacimientoController.text,
+        lugarNacimiento: _lugarSeleccionado ?? "",
         trato: _trato!,
+        imagenPath: photoPath,
       );
 
       listaUsuarios.agregarUsuario(nuevoUsuario);
@@ -187,6 +191,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               TextFormField(
                 controller: _edadController,
                 keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                 decoration: InputDecoration(
                   labelText: "Edad",
                   prefixIcon: Icon(Icons.cake),
@@ -211,6 +216,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
                   Text("Subir foto: "),
                   SizedBox(width: 8), // Espacio pequeño entre texto y botón
                   ElevatedButton(
+                    style: elevatedButtonStyle,
                     onPressed: () async {
                       final path = await CameraGalleryService().selectPhoto();
                       if (path == null) return;
@@ -226,19 +232,31 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               SizedBox(height: 15),
 
               //Nacimiento
-              TextFormField(
-                controller: _lugarNacimientoController,
+              DropdownButtonFormField<String>(
+                value: _lugarSeleccionado,
                 decoration: InputDecoration(
                   labelText: "Lugar de Nacimiento",
                   prefixIcon: Icon(Icons.location_city),
                 ),
+                items: lugares.map((String lugar) {
+                  return DropdownMenuItem<String>(
+                    value: lugar,
+                    child: Text(lugar),
+                  );
+                }).toList(),
+                onChanged: (String? nuevoLugar) {
+                  setState(() {
+                    _lugarSeleccionado = nuevoLugar;
+                  });
+                },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingrese el lugar de nacimiento';
+                  if (value == null) {
+                    return 'Por favor seleccione un lugar de nacimiento';
                   }
                   return null;
                 },
               ),
+
               SizedBox(height: 15),
 
               //Terminos
@@ -254,6 +272,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
               SizedBox(height: 20),
               //Crear usuario
               ElevatedButton(
+                style: elevatedButtonStyle,
                 onPressed: _crearUsuario,
                 child: Text("Crear Usuario"),
               ),
@@ -261,6 +280,7 @@ class _PantallaRegistroState extends State<PantallaRegistro> {
 
               //Cancelar
               OutlinedButton(
+                style: outlinedButtonStyle,
                 onPressed: _cancelarRegistro,
                 child: Text("Cancelar"),
               ),

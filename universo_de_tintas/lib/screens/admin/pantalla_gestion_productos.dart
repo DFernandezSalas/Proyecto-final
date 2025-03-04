@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:universo_de_tintas/models/producto.dart';
 import 'package:universo_de_tintas/models/usuario.dart';
 import 'package:universo_de_tintas/screens/admin/pantalla_anadir_producto.dart';
-import 'package:universo_de_tintas/services/lista_productos.dart';
+import 'package:universo_de_tintas/services/old/lista_productos.dart';
 import 'package:universo_de_tintas/screens/admin/pantalla_editar_producto.dart';
 import 'package:universo_de_tintas/utils/button_styles.dart';
 import 'package:universo_de_tintas/widgets/menu_drawer.dart';

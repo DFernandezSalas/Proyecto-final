@@ -1,4 +1,7 @@
 package com.example.demo.models;
+
+import java.util.Objects;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -20,34 +23,64 @@ public class User {
     @Column(name = "administrador")
     private boolean administrador;
 
-    
+    @Column(name = "trato")
+    private String trato;
+
+    @Column(name = "lugar_nacimiento")
+    private String lugarNacimiento;
+
+    @Column(name = "imagen_path")
+    private String imagenPath;
+
+    @Column(name = "bloqueado")
+    private boolean bloqueado;
+
+    // Constructor vacío requerido por JPA
     public User() {
     }
-   
-    public User(String nombre, String password, int edad, boolean administrador) {
+
+    // Constructor con todos los atributos
+    public User(String nombre, String password, int edad, boolean administrador,
+            String trato, String lugarNacimiento, String imagenPath, boolean bloqueado) {
         this.nombre = nombre;
         this.password = password;
         this.edad = edad;
         this.administrador = administrador;
+        this.trato = trato;
+        this.lugarNacimiento = lugarNacimiento;
+        this.imagenPath = imagenPath;
+        this.bloqueado = bloqueado;
     }
 
-    
+    // Getters y Setters
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
+
     public String getPassword() {
         return password;
     }
+
     public void setPassword(String password) {
         this.password = password;
     }
+
     public int getEdad() {
         return edad;
     }
+
     public void setEdad(int edad) {
         this.edad = edad;
     }
@@ -60,34 +93,51 @@ public class User {
         this.administrador = administrador;
     }
 
+    public String getTrato() {
+        return trato;
+    }
+
+    public void setTrato(String trato) {
+        this.trato = trato;
+    }
+
+    public String getLugarNacimiento() {
+        return lugarNacimiento;
+    }
+
+    public void setLugarNacimiento(String lugarNacimiento) {
+        this.lugarNacimiento = lugarNacimiento;
+    }
+
+    public String getImagenPath() {
+        return imagenPath;
+    }
+
+    public void setImagenPath(String imagenPath) {
+        this.imagenPath = imagenPath;
+    }
+
+    public boolean isBloqueado() {
+        return bloqueado;
+    }
+
+    public void setBloqueado(boolean bloqueado) {
+        this.bloqueado = bloqueado;
+    }
+
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((Id == null) ? 0 : Id.hashCode());
-        return result;
+        return Objects.hash(Id);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
             return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
+        if (obj == null || getClass() != obj.getClass())
             return false;
         User other = (User) obj;
-        if (Id == null) {
-            if (other.Id != null)
-                return false;
-        } else if (!Id.equals(other.Id))
-            return false;
-        return true;
+        return Objects.equals(Id, other.Id);
     }
 
-    public Long getId() {
-        return Id;
-    }
-
-    
 }

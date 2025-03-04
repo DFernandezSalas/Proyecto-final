@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:universo_de_tintas/models/usuario.dart';
-import 'package:universo_de_tintas/services/lista_usuarios.dart';
+import 'package:universo_de_tintas/services/old/lista_usuarios.dart';
 import 'package:universo_de_tintas/screens/admin/pantalla_editar_usuario.dart';
 import 'package:universo_de_tintas/screens/admin/pantalla_anadir_usuario.dart';
 import 'package:universo_de_tintas/utils/button_styles.dart';

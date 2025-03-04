@@ -2,7 +2,7 @@ import 'package:universo_de_tintas/screens/admin/pantalla_admin.dart';
 import 'package:universo_de_tintas/screens/pantalla_registro.dart';
 import 'package:universo_de_tintas/screens/user/pantalla_principal.dart';
 import 'package:flutter/material.dart';
-import 'package:universo_de_tintas/services/lista_usuarios.dart';
+import 'package:universo_de_tintas/services/old/lista_usuarios.dart';
 import 'package:universo_de_tintas/models/usuario.dart';
 import 'package:universo_de_tintas/utils/button_styles.dart';
 
@@ -88,6 +88,7 @@ class _LoginState extends State<Login> {
                     Usuario? usuario = listaUsuarios.usuarios.firstWhere(
                       (u) => u.nombre == nombre,
                       orElse: () => Usuario(
+                          id: 0,
                           nombre: "",
                           contrasenia: "",
                           edad: 0,

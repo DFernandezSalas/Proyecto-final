@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:universo_de_tintas/services/lista_pedidos.dart';
+import 'package:universo_de_tintas/services/old/lista_pedidos.dart';
 import 'package:universo_de_tintas/models/pedido.dart';
 import 'package:universo_de_tintas/models/usuario.dart';
 

@@ -1,9 +1,12 @@
 package com.example.demo.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Product")
+@Table(name = "Producto")
 public class Producto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +27,18 @@ public class Producto {
     @Column(name = "precio")
     private double precio;
 
-    public Producto(String nombre, String descripcion, String imagen, int stock, double precio) {
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PedidoProducto> pedidos = new ArrayList<>();
+
+    
+    public Producto(String nombre, String descripcion, String imagen, int stock, double precio,
+            List<PedidoProducto> pedidos) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.imagen = imagen;
         this.stock = stock;
         this.precio = precio;
+        this.pedidos = pedidos;
     }
 
     public Producto() {
@@ -75,6 +84,22 @@ public class Producto {
         this.precio = precio;
     }
 
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    public List<PedidoProducto> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<PedidoProducto> pedidos) {
+        this.pedidos = pedidos;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -100,5 +125,4 @@ public class Producto {
         return true;
     }
 
-    
 }

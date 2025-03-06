@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.*;
@@ -34,6 +36,10 @@ public class User {
 
     @Column(name = "bloqueado")
     private boolean bloqueado;
+
+    // Relación con Pedido
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pedido> pedidos = new ArrayList<>();
 
     // Constructor vacío requerido por JPA
     public User() {
@@ -123,6 +129,14 @@ public class User {
 
     public void setBloqueado(boolean bloqueado) {
         this.bloqueado = bloqueado;
+    }
+
+    public List<Pedido> getPedidos() {
+        return pedidos;
+    }
+
+    public void setPedidos(List<Pedido> pedidos) {
+        this.pedidos = pedidos;
     }
 
     @Override

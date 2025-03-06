@@ -3,6 +3,8 @@ package com.example.demo.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -13,11 +15,12 @@ public class Pedido {
     private Long Id;
 
     // Relación con User (Muchos pedidos pueden pertenecer a un solo usuario)
-    @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "usuario_id")
     private User usuario;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<PedidoProducto> productos = new ArrayList<>();
 
     @Column(name = "total")

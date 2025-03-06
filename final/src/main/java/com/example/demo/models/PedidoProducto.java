@@ -1,4 +1,7 @@
 package com.example.demo.models;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -9,12 +12,14 @@ public class PedidoProducto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "pedido_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pedido_id")
+    @JsonIgnore
     private Pedido pedido;
 
-    @ManyToOne
-    @JoinColumn(name = "producto_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producto_id")
+    @JsonIgnore
     private Producto producto;
 
     @Column(name = "cantidad")

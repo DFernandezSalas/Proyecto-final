@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.api.request.PedidoCreationRequest;
 import com.example.demo.models.Pedido;
+import com.example.demo.models.User;
 import com.example.demo.repository.PedidoRepository;
 
 @Service
@@ -17,24 +18,24 @@ public class PedidoService {
         this.pedidoRepository = pedidoRepository;
     }
 
-    public Pedido createPedido(PedidoCreationRequest pedidoCreationRequest) {
-        return pedidoRepository.save(mapToPedido(pedidoCreationRequest));
+    public Pedido createPedido(PedidoCreationRequest pedidoCreationRequest, User user) {
+        return pedidoRepository.save(mapToPedido(pedidoCreationRequest, user));
     }
 
-    public Pedido mapToPedido(PedidoCreationRequest createRequest) {
+    public Pedido mapToPedido(PedidoCreationRequest createRequest, User user) {
         Pedido pedido = new Pedido();
-        pedido.setUsuario(createRequest.usuario());
+        pedido.setUsuario(user);
         pedido.setProductos(createRequest.productos());
         pedido.setTotal(createRequest.total());
         pedido.setEstado(createRequest.estado());
         return pedido;
     }
 
-    public Pedido updatePedido(Long id, PedidoCreationRequest updateRequest) {
+    public Pedido updatePedido(Long id, PedidoCreationRequest updateRequest, User user) {
         Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
         if (optionalPedido.isPresent()) {
             Pedido pedido = optionalPedido.get();
-            pedido.setUsuario(updateRequest.usuario());
+            pedido.setUsuario(user);
             pedido.setProductos(updateRequest.productos());
             pedido.setTotal(updateRequest.total());
             pedido.setEstado(updateRequest.estado());

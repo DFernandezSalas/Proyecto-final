@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,38 +30,17 @@ public class PedidoController {
         this.userService = userService;
     }
 
-    /*
-     * @PostMapping("/crear")
-     * public ResponseEntity<?> createPedido(@RequestBody PedidoCreationRequest
-     * pedidoCreationRequest) {
-     * User user = userService.getUser(pedidoCreationRequest.usuarioId())
-     * .orElseThrow(() -> new RuntimeException("❌ Usuario no encontrado"));
-     * 
-     * Pedido pedido = pedidoService.createPedido(pedidoCreationRequest, user);
-     * 
-     * System.out.println("✅ Pedido creado con ID: " + pedido.getId());
-     * 
-     * return ResponseEntity.ok("✅ Pedido creado con ID: " + pedido.getId());
-     * }
-     */
-
     @PostMapping
     public Pedido createPedido(@RequestBody PedidoCreationRequest pedidoCreationRequest) {
         User user = userService.getUser(pedidoCreationRequest.usuarioId()).orElse(null);
         return pedidoService.createPedido(pedidoCreationRequest, user);
     }
 
-    /*@PostMapping("/agregar-producto")
-    public ResponseEntity<?> agregarProducto(@RequestBody PedidoProductoCreationRequest request) {
-        try {
-            // 1️⃣ Llamamos al servicio para agregar el producto
-            pedidoService.agregarProductoAPedido(request.pedido(), request.producto(), request.cantidad());
-
-            return ResponseEntity.ok("✅ Producto agregado al pedido correctamente");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("❌ Error: " + e.getMessage());
-        }
-    }*/
+    @PutMapping("/{id}")
+    public Pedido updatePedido(@PathVariable Long id, @RequestBody PedidoCreationRequest pedidoCreationRequest) {
+        User user = userService.getUser(pedidoCreationRequest.usuarioId()).orElse(null);
+        return pedidoService.updatePedido(id, pedidoCreationRequest, user);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {

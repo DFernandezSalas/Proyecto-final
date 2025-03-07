@@ -15,12 +15,11 @@ import com.example.demo.models.User;
 import com.example.demo.repository.PedidoRepository;
 import com.example.demo.repository.ProductoRepository;
 
-
 @Service
 public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ProductoRepository productoRepository;
-    //private final PedidoProductoRepository pedidoProductoRepository;
+    // private final PedidoProductoRepository pedidoProductoRepository;
 
     /*
      * public PedidoService(PedidoRepository pedidoRepository) {
@@ -43,55 +42,26 @@ public class PedidoService {
         Pedido pedido = new Pedido();
         pedido.setUsuario(user);
         pedido = pedidoRepository.save(pedido);
-
-
-        List<PedidoProducto> products = new ArrayList<>();
-        for (PedidoProductoCreationRequest item : createRequest.productos()){
-            PedidoProducto pp = new PedidoProducto();
-            pp.setPedido(pedido);
-            pp.setProducto(productoRepository.findById(item.producto()).orElse(null));
-            pp.setCantidad(item.cantidad());
-            products.add(pp);
-        }
+        List<PedidoProducto> products = getProducts(createRequest, pedido);
         pedido.setProductos(products);
         pedido.setTotal(createRequest.total());
         pedido.setEstado(createRequest.estado());
         return pedido;
     }
 
-    /*public Pedido updatePedido(Long id, PedidoCreationRequest updateRequest, User user) {
+    public Pedido updatePedido(Long id, PedidoCreationRequest updateRequest, User user) {
         Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
         if (optionalPedido.isPresent()) {
             Pedido pedido = optionalPedido.get();
             pedido.setUsuario(user);
-            pedido.setProductos(updateRequest.productos());
+            List<PedidoProducto> products = getProducts(updateRequest, pedido);
+            pedido.setProductos(products);
             pedido.setTotal(updateRequest.total());
             pedido.setEstado(updateRequest.estado());
             return pedidoRepository.save(pedido);
         }
         return null;
-    }*/
-
-    /*@Transactional
-    public void agregarProductoAPedido(Long pedidoId, Long productoId, int cantidad) {
-        // 1️⃣ Buscar el pedido en la base de datos
-        Pedido pedido = pedidoRepository.findById(pedidoId)
-                .orElseThrow(() -> new RuntimeException("❌ Pedido no encontrado"));
-
-        // 2️⃣ Buscar el producto en la base de datos
-        Producto producto = productoRepository.findById(productoId)
-                .orElseThrow(() -> new RuntimeException("❌ Producto no encontrado"));
-
-        // 3️⃣ Verificar los IDs antes de guardarlos
-        System.out.println("✅ Pedido encontrado con ID: " + pedido.getId());
-        System.out.println("✅ Producto encontrado con ID: " + producto.getId());
-
-        // 4️⃣ Crear la relación y guardarla en la base de datos
-        PedidoProducto pedidoProducto = new PedidoProducto(pedido, producto, cantidad);
-        pedidoProductoRepository.save(pedidoProducto);
-
-        System.out.println("✅ PedidoProducto guardado correctamente en la tabla intermedia");
-    }*/
+    }
 
     public void removePedido(Long id) {
         pedidoRepository.deleteById(id);
@@ -104,5 +74,17 @@ public class PedidoService {
 
     public List<Pedido> getAllPedidos() {
         return pedidoRepository.findAll();
+    }
+
+    private List<PedidoProducto> getProducts(PedidoCreationRequest createRequest, Pedido pedido) {
+        List<PedidoProducto> products = new ArrayList<>();
+        for (PedidoProductoCreationRequest item : createRequest.productos()) {
+            PedidoProducto pp = new PedidoProducto();
+            pp.setPedido(pedido);
+            pp.setProducto(productoRepository.findById(item.producto()).orElse(null));
+            pp.setCantidad(item.cantidad());
+            products.add(pp);
+        }
+        return products;
     }
 }

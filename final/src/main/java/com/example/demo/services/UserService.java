@@ -44,6 +44,7 @@ public class UserService {
             user.setLugarNacimiento(updateRequest.lugarNacimiento());
             user.setTrato(updateRequest.trato());
             user.setImagenPath(updateRequest.imagenPath());
+            user.setBloqueado(updateRequest.bloqueado());
             return userRepository.save(user);
         }
         return null;

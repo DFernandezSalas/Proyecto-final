@@ -26,27 +26,32 @@ public class ProductoController {
         this.productoService = productoService;
     }
 
+    // Crear un nuevo prodcuto
     @PostMapping
     public Producto createProducto(@RequestBody ProductoCreationRequest ProductoCreationRequest) {
         return productoService.createProducto(ProductoCreationRequest);
     }
 
+    // Actualizar un producto existente
     @PutMapping("/{id}")
     public Producto updateProducto(@PathVariable Long id,
             @RequestBody ProductoCreationRequest productoCreationRequest) {
         return productoService.updateProducto(id, productoCreationRequest);
     }
 
+    // Eliminar un producto por su ID
     @DeleteMapping("/{id}")
     public void deleteProducto(@PathVariable Long id) {
         productoService.removeProducto(id);
     }
 
+    // Obtener un producto por su ID
     @GetMapping("/{id}")
     public Producto getProducto(@PathVariable Long id) {
-        return productoService.getProducto(id).orElse(null);
+        return productoService.getProducto(id);
     }
 
+    // Obtener la lista de todos los productos
     @GetMapping("/getall")
     public List<Producto> getAllProductos() {
         return productoService.getAllProductos();

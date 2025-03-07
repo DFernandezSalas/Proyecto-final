@@ -29,6 +29,7 @@ public class Producto {
     @Column(name = "precio")
     private double precio;
 
+    // Relacion con tabla intermedia
     @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<PedidoProducto> pedidos = new ArrayList<>();

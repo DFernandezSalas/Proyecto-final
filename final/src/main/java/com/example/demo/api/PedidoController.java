@@ -30,28 +30,33 @@ public class PedidoController {
         this.userService = userService;
     }
 
+     // Crear un nuevo pedido
     @PostMapping
     public Pedido createPedido(@RequestBody PedidoCreationRequest pedidoCreationRequest) {
-        User user = userService.getUser(pedidoCreationRequest.usuarioId()).orElse(null);
+        User user = userService.getUser(pedidoCreationRequest.usuarioId());
         return pedidoService.createPedido(pedidoCreationRequest, user);
     }
 
+    // Actualizar un pedido existente
     @PutMapping("/{id}")
     public Pedido updatePedido(@PathVariable Long id, @RequestBody PedidoCreationRequest pedidoCreationRequest) {
-        User user = userService.getUser(pedidoCreationRequest.usuarioId()).orElse(null);
+        User user = userService.getUser(pedidoCreationRequest.usuarioId());
         return pedidoService.updatePedido(id, pedidoCreationRequest, user);
     }
 
+    // Eliminar un pedido por su ID
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
         pedidoService.removePedido(id);
     }
 
+    // Obtener un pedido por su ID
     @GetMapping("/{id}")
     public Pedido getPedido(@PathVariable Long id) {
-        return pedidoService.getPedido(id).orElse(null);
+        return pedidoService.getPedido(id);
     }
 
+    // Obtener la lista de todos los pedidos
     @GetMapping("/getall")
     public List<Pedido> getAllPedidos() {
         return pedidoService.getAllPedidos();

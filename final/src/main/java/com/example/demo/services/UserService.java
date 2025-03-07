@@ -2,11 +2,11 @@ package com.example.demo.services;
 
 import org.springframework.stereotype.Service;
 import com.example.demo.api.request.UserCreationRequest;
+import com.example.demo.exceptions.UserNotFoundException;
 import com.example.demo.models.User;
 import com.example.demo.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -21,6 +21,7 @@ public class UserService {
         return userRepository.save(mapToUser(userCreationRequest));
     }
 
+    //Crear usuario
     public User mapToUser(UserCreationRequest createRequest) {
         User user = new User();
         user.setNombre(createRequest.nombre());
@@ -33,32 +34,38 @@ public class UserService {
         return user;
     }
 
+    //Actualizar usuario
     public User updateUser(Long id, UserCreationRequest updateRequest) {
-        Optional<User> optionalUser = userRepository.findById(id);
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setNombre(updateRequest.nombre());
-            user.setPassword(updateRequest.password());
-            user.setEdad(updateRequest.edad());
-            user.setAdministrador(updateRequest.administrador());
-            user.setLugarNacimiento(updateRequest.lugarNacimiento());
-            user.setTrato(updateRequest.trato());
-            user.setImagenPath(updateRequest.imagenPath());
-            user.setBloqueado(updateRequest.bloqueado());
-            return userRepository.save(user);
-        }
-        return null;
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + id));
+
+        user.setNombre(updateRequest.nombre());
+        user.setPassword(updateRequest.password());
+        user.setEdad(updateRequest.edad());
+        user.setAdministrador(updateRequest.administrador());
+        user.setLugarNacimiento(updateRequest.lugarNacimiento());
+        user.setTrato(updateRequest.trato());
+        user.setImagenPath(updateRequest.imagenPath());
+        user.setBloqueado(updateRequest.bloqueado());
+        return userRepository.save(user);
     }
 
+    // Borrar usuario
     public void removeUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException("No se puede eliminar. Usuario con ID " + id + " no encontrado.");
+        }
         userRepository.deleteById(id);
 
     }
 
-    public Optional<User> getUser(final long id) {
-        return userRepository.findById(id);
+    // Obtener id de usuario
+    public User getUser(final long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Usuario no encontrado con ID: " + id));
     }
 
+    // Obtener lista de usuarios
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

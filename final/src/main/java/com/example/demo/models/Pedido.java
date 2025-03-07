@@ -15,11 +15,10 @@ public class Pedido {
     // Relación con User (Muchos pedidos pueden pertenecer a un solo usuario)
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    // @JsonIgnore
     private User usuario;
 
+    // Relacion con pedido
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    // @JsonIgnore
     private List<PedidoProducto> productos = new ArrayList<>();
 
     @Column(name = "total")

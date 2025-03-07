@@ -11,11 +11,13 @@ public class PedidoProducto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Realcion con pedido
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pedido_id")
     @JsonIgnore
     private Pedido pedido;
 
+    // Relacion con producto
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "producto_id")
     @JsonIgnore

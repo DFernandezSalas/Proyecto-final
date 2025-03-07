@@ -19,7 +19,7 @@ public class Pedido {
     @JoinColumn(name = "usuario_id")
     private User usuario;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<PedidoProducto> productos = new ArrayList<>();
 

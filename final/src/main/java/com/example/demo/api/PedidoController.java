@@ -2,8 +2,6 @@ package com.example.demo.api;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.api.request.PedidoCreationRequest;
-import com.example.demo.api.request.PedidoProductoCreationRequest;
 import com.example.demo.models.Pedido;
 import com.example.demo.models.User;
 import com.example.demo.services.PedidoService;
@@ -32,27 +29,28 @@ public class PedidoController {
         this.userService = userService;
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<?> createPedido(@RequestBody PedidoCreationRequest pedidoCreationRequest) {
-        User user = userService.getUser(pedidoCreationRequest.usuarioId())
-                .orElseThrow(() -> new RuntimeException("❌ Usuario no encontrado"));
-
-        Pedido pedido = pedidoService.createPedido(pedidoCreationRequest, user);
-
-        System.out.println("✅ Pedido creado con ID: " + pedido.getId());
-
-        return ResponseEntity.ok("✅ Pedido creado con ID: " + pedido.getId());
-    }
-
     /*
-     * public Pedido createPedido(@RequestBody PedidoCreationRequest
+     * @PostMapping("/crear")
+     * public ResponseEntity<?> createPedido(@RequestBody PedidoCreationRequest
      * pedidoCreationRequest) {
-     * User user =
-     * userService.getUser(pedidoCreationRequest.usuarioId()).orElse(null);
-     * return pedidoService.createPedido(pedidoCreationRequest, user);
+     * User user = userService.getUser(pedidoCreationRequest.usuarioId())
+     * .orElseThrow(() -> new RuntimeException("❌ Usuario no encontrado"));
+     * 
+     * Pedido pedido = pedidoService.createPedido(pedidoCreationRequest, user);
+     * 
+     * System.out.println("✅ Pedido creado con ID: " + pedido.getId());
+     * 
+     * return ResponseEntity.ok("✅ Pedido creado con ID: " + pedido.getId());
      * }
      */
-    @PostMapping("/agregar-producto")
+
+    @PostMapping
+    public Pedido createPedido(@RequestBody PedidoCreationRequest pedidoCreationRequest) {
+        User user = userService.getUser(pedidoCreationRequest.usuarioId()).orElse(null);
+        return pedidoService.createPedido(pedidoCreationRequest, user);
+    }
+
+    /*@PostMapping("/agregar-producto")
     public ResponseEntity<?> agregarProducto(@RequestBody PedidoProductoCreationRequest request) {
         try {
             // 1️⃣ Llamamos al servicio para agregar el producto
@@ -62,7 +60,7 @@ public class PedidoController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("❌ Error: " + e.getMessage());
         }
-    }
+    }*/
 
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {

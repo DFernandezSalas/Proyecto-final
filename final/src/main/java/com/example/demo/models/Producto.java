@@ -27,7 +27,7 @@ public class Producto {
     @Column(name = "precio")
     private double precio;
 
-    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "producto", cascade = CascadeType.ALL)
     private List<PedidoProducto> pedidos = new ArrayList<>();
 
     

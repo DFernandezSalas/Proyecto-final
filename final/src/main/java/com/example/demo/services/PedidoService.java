@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,21 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.api.request.PedidoCreationRequest;
+import com.example.demo.api.request.PedidoProductoCreationRequest;
 import com.example.demo.models.Pedido;
 import com.example.demo.models.PedidoProducto;
-import com.example.demo.models.Producto;
 import com.example.demo.models.User;
-import com.example.demo.repository.PedidoProductoRepository;
 import com.example.demo.repository.PedidoRepository;
 import com.example.demo.repository.ProductoRepository;
 
-import jakarta.transaction.Transactional;
 
 @Service
 public class PedidoService {
     private final PedidoRepository pedidoRepository;
     private final ProductoRepository productoRepository;
-    private final PedidoProductoRepository pedidoProductoRepository;
+    //private final PedidoProductoRepository pedidoProductoRepository;
 
     /*
      * public PedidoService(PedidoRepository pedidoRepository) {
@@ -31,11 +30,9 @@ public class PedidoService {
     @Autowired
     public PedidoService(
             PedidoRepository pedidoRepository,
-            ProductoRepository productoRepository,
-            PedidoProductoRepository pedidoProductoRepository) {
+            ProductoRepository productoRepository) {
         this.pedidoRepository = pedidoRepository;
         this.productoRepository = productoRepository;
-        this.pedidoProductoRepository = pedidoProductoRepository;
     }
 
     public Pedido createPedido(PedidoCreationRequest pedidoCreationRequest, User user) {
@@ -45,13 +42,24 @@ public class PedidoService {
     public Pedido mapToPedido(PedidoCreationRequest createRequest, User user) {
         Pedido pedido = new Pedido();
         pedido.setUsuario(user);
-        pedido.setProductos(createRequest.productos());
+        pedido = pedidoRepository.save(pedido);
+
+
+        List<PedidoProducto> products = new ArrayList<>();
+        for (PedidoProductoCreationRequest item : createRequest.productos()){
+            PedidoProducto pp = new PedidoProducto();
+            pp.setPedido(pedido);
+            pp.setProducto(productoRepository.findById(item.producto()).orElse(null));
+            pp.setCantidad(item.cantidad());
+            products.add(pp);
+        }
+        pedido.setProductos(products);
         pedido.setTotal(createRequest.total());
         pedido.setEstado(createRequest.estado());
         return pedido;
     }
 
-    public Pedido updatePedido(Long id, PedidoCreationRequest updateRequest, User user) {
+    /*public Pedido updatePedido(Long id, PedidoCreationRequest updateRequest, User user) {
         Optional<Pedido> optionalPedido = pedidoRepository.findById(id);
         if (optionalPedido.isPresent()) {
             Pedido pedido = optionalPedido.get();
@@ -62,9 +70,9 @@ public class PedidoService {
             return pedidoRepository.save(pedido);
         }
         return null;
-    }
+    }*/
 
-    @Transactional
+    /*@Transactional
     public void agregarProductoAPedido(Long pedidoId, Long productoId, int cantidad) {
         // 1️⃣ Buscar el pedido en la base de datos
         Pedido pedido = pedidoRepository.findById(pedidoId)
@@ -83,7 +91,7 @@ public class PedidoService {
         pedidoProductoRepository.save(pedidoProducto);
 
         System.out.println("✅ PedidoProducto guardado correctamente en la tabla intermedia");
-    }
+    }*/
 
     public void removePedido(Long id) {
         pedidoRepository.deleteById(id);
